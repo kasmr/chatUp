@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   image: {
-    backgroundImage: 'url(img/login1.jpg)',
+    backgroundImage: 'url(img/login2.jpg)',
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light'
@@ -52,8 +52,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignUp = (props: Props) => {
+const SignUp: React.FC = (props: Props) => {
   const classes = useStyles();
+
+  const [state, setState] = useState<string>('');
+
+  // const onSubmit = (event): void => {};
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setState(event.target.value);
+  };
 
   return (
     <Grid container component='main' className={classes.root}>
@@ -106,6 +114,8 @@ const SignUp = (props: Props) => {
               type='password'
               id='password2'
               autoComplete='current-password'
+              onChange={onChange}
+              value={state}
             />
             <Button
               type='submit'
