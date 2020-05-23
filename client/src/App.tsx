@@ -4,6 +4,7 @@ import ScopedCssBaseline from '@material-ui/core/ScopedCssBaseline';
 import Dashboard from './components/dashboard/Dashboard';
 import SignIn from './components/singin/SignIn';
 import SignUp from './components/signup/SignUp';
+import Chat from './components/Chat';
 
 function App() {
   return (
@@ -11,7 +12,7 @@ function App() {
       <ScopedCssBaseline>
         <Switch>
           <Route component={SignIn} path='/signin' />
-          <Route component={SignUp} path='/signup' />
+          <Route component={Chat} path='/chat' />
           <Route component={Dashboard} path='/dashboard' />
         </Switch>
       </ScopedCssBaseline>

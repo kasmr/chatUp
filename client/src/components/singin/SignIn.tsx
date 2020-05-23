@@ -3,18 +3,37 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import ForumIcon from '@material-ui/icons/Forum';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 
-interface Props {}
+interface IForm {
+  username: string;
+  room: string;
+}
 
-const SignIn: React.FC = (props: Props) => {
+const SignIn: React.FC = () => {
   const classes = useStyles();
+
+  const [form, setForm] = useState<IForm>({
+    username: '',
+    room: '',
+  });
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const onClick = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ): void => {
+    if (!form.username || !form.room) {
+      e.preventDefault();
+    }
+  };
 
   return (
     <Grid container component='main' className={classes.root}>
@@ -29,51 +48,42 @@ const SignIn: React.FC = (props: Props) => {
             Chat with everyone you can
           </Typography>
           <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
+            <ForumIcon />
           </Avatar>
           <Typography component='h1' variant='h5'>
-            Sign in
+            Join
           </Typography>
           <form className={classes.form} noValidate>
             <TextField
               variant='outlined'
               margin='normal'
-              required
               fullWidth
-              id='email'
-              label='Email Address'
-              name='email'
-              autoComplete='email'
+              label='Username'
+              name='username'
               autoFocus
+              onChange={onChange}
             />
             <TextField
               variant='outlined'
               margin='normal'
-              required
               fullWidth
-              name='password'
-              label='Password'
-              type='password'
-              id='password'
-              autoComplete='current-password'
+              name='room'
+              label='Room'
+              onChange={onChange}
             />
-            <Button
-              type='submit'
-              fullWidth
-              variant='contained'
-              color='primary'
-              className={classes.submit}
+            <Link
+              onClick={onClick}
+              to={`/chat?name=${form.username}&room=${form.room}`}
             >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item>
-                <Link href='#' variant='body2'>
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-            <Box mt={5}></Box>
+              <Button
+                fullWidth
+                variant='contained'
+                color='primary'
+                className={classes.submit}
+              >
+                Sign In
+              </Button>
+            </Link>
           </form>
         </div>
       </Grid>
