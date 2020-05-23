@@ -8,14 +8,14 @@ import Grid from '@material-ui/core/Grid';
 import ForumIcon from '@material-ui/icons/Forum';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 
 interface IForm {
   username: string;
   room: string;
 }
 
-const SignIn: React.FC = () => {
+const SignIn: React.FC<RouteComponentProps> = ({ history }) => {
   const classes = useStyles();
 
   const [form, setForm] = useState<IForm>({
@@ -27,11 +27,10 @@ const SignIn: React.FC = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const onClick = (
-    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-  ): void => {
-    if (!form.username || !form.room) {
-      e.preventDefault();
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    if (form.username || form.room) {
+      history.push(`/chat?name=${form.username}&room=${form.room}`);
     }
   };
 
@@ -53,7 +52,7 @@ const SignIn: React.FC = () => {
           <Typography component='h1' variant='h5'>
             Join
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate onSubmit={onSubmit}>
             <TextField
               variant='outlined'
               margin='normal'
@@ -71,19 +70,15 @@ const SignIn: React.FC = () => {
               label='Room'
               onChange={onChange}
             />
-            <Link
-              onClick={onClick}
-              to={`/chat?name=${form.username}&room=${form.room}`}
+            <Button
+              type='submit'
+              fullWidth
+              variant='contained'
+              color='primary'
+              className={classes.submit}
             >
-              <Button
-                fullWidth
-                variant='contained'
-                color='primary'
-                className={classes.submit}
-              >
-                Sign In
-              </Button>
-            </Link>
+              Join
+            </Button>
           </form>
         </div>
       </Grid>
