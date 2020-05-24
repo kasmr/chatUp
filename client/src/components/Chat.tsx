@@ -3,20 +3,27 @@ import { RouteComponentProps } from 'react-router-dom';
 import queryString from 'query-string';
 import io from 'socket.io-client';
 
-interface Props {}
+interface IMessages {
+  user: string;
+  text: string;
+}
 
 let socket: any;
 
 const Chat: React.FC<RouteComponentProps> = ({ location }) => {
-  const [chat, setChat] = useState({});
+  const [name, setName] = useState<string | string[] | null | undefined>('');
+  const [room, setRoom] = useState<string | string[] | null | undefined>('');
+  const [messages, setMessages] = useState<IMessages[]>([]);
+  const [message, setMessage] = useState('');
   const ENDPOINT: string = 'localhost:5000';
 
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
-
+    console.log(name, room);
     socket = io(ENDPOINT);
 
-    setChat({ name, room });
+    setName(name);
+    setRoom(room);
 
     socket.emit('join', { name, room }, () => {});
 
@@ -27,7 +34,36 @@ const Chat: React.FC<RouteComponentProps> = ({ location }) => {
     };
   }, [ENDPOINT, location.search]);
 
-  return <div>Chat</div>;
+  useEffect(() => {
+    socket.on('message', (message: IMessages) => {
+      setMessages([...messages, message]);
+    });
+  }, [messages]);
+
+  const sendMessage = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    e.preventDefault();
+    if (message) {
+      socket.emit('sendMessage', message, () => setMessage(''));
+    }
+  };
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setMessage(e.target.value);
+  };
+
+  const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') {
+      sendMessage(e);
+    }
+  };
+
+  return (
+    <div>
+      <div>
+        <input value={message} onChange={onChange} onKeyPress={onKeyPress} />
+      </div>
+    </div>
+  );
 };
 
 export default Chat;
