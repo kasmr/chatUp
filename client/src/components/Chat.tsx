@@ -5,7 +5,7 @@ import io from 'socket.io-client';
 
 interface Props {}
 
-let socket;
+let socket: any;
 
 const Chat: React.FC<RouteComponentProps> = ({ location }) => {
   const [chat, setChat] = useState({});
@@ -18,9 +18,13 @@ const Chat: React.FC<RouteComponentProps> = ({ location }) => {
 
     setChat({ name, room });
 
-    socket.emit('join', { name, room }, ({ error }: { error: string }) => {
-      alert(error);
-    });
+    socket.emit('join', { name, room }, () => {});
+
+    return () => {
+      socket.emit('disconnect');
+
+      socket.off();
+    };
   }, [ENDPOINT, location.search]);
 
   return <div>Chat</div>;
