@@ -19,7 +19,6 @@ const Chat: React.FC<RouteComponentProps> = ({ location }) => {
 
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
-    console.log(name, room);
     socket = io(ENDPOINT);
 
     setName(name);
@@ -30,15 +29,19 @@ const Chat: React.FC<RouteComponentProps> = ({ location }) => {
     return () => {
       socket.emit('disconnect');
 
-      socket.off();
+      socket.disconnect();
     };
   }, [ENDPOINT, location.search]);
 
   useEffect(() => {
     socket.on('message', (message: IMessages) => {
-      setMessages([...messages, message]);
+      setMessages((messages) => [...messages, message]);
     });
-  }, [messages]);
+
+    // socket.on('roomData', ({users}) => {
+    //   setUsers(users)
+    // })
+  }, []);
 
   const sendMessage = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     e.preventDefault();
@@ -56,6 +59,8 @@ const Chat: React.FC<RouteComponentProps> = ({ location }) => {
       sendMessage(e);
     }
   };
+
+  console.log(messages, message);
 
   return (
     <div>
