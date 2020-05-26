@@ -3,6 +3,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import queryString from 'query-string';
 import io from 'socket.io-client';
 import Dashboard from './dashboard/Dashboard';
+import Input from './Input';
 
 interface IMessages {
   user: string;
@@ -58,8 +59,8 @@ const Chat: React.FC<RouteComponentProps> = ({ location }) => {
   return (
     <div>
       <div></div>
-      <Dashboard
-        room={room}
+      <Dashboard room={room} />
+      <Input
         message={message}
         setMessage={setMessage}
         sendMessage={sendMessage}

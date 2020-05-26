@@ -1,8 +1,12 @@
 import React from 'react';
 
-interface Props {}
+interface Props {
+  message: string;
+  setMessage: React.Dispatch<React.SetStateAction<string>>;
+  sendMessage: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+}
 
-const Input = (props: Props) => {
+const Input: React.FC<Props> = ({ message, setMessage, sendMessage }) => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setMessage(e.target.value);
   };
