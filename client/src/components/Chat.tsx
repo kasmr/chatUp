@@ -2,17 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import queryString from 'query-string';
 import io from 'socket.io-client';
+import Dashboard from './dashboard/Dashboard';
 
 interface IMessages {
   user: string;
   text: string;
 }
 
+export type Tstate = string | string[] | null | undefined;
+
 let socket: any;
 
 const Chat: React.FC<RouteComponentProps> = ({ location }) => {
-  const [name, setName] = useState<string | string[] | null | undefined>('');
-  const [room, setRoom] = useState<string | string[] | null | undefined>('');
+  const [name, setName] = useState<Tstate>('');
+  const [room, setRoom] = useState<Tstate>('');
   const [messages, setMessages] = useState<IMessages[]>([]);
   const [message, setMessage] = useState('');
   const ENDPOINT: string = 'localhost:5000';
@@ -50,23 +53,17 @@ const Chat: React.FC<RouteComponentProps> = ({ location }) => {
     }
   };
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setMessage(e.target.value);
-  };
-
-  const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (e.key === 'Enter') {
-      sendMessage(e);
-    }
-  };
-
   console.log(messages, message);
 
   return (
     <div>
-      <div>
-        <input value={message} onChange={onChange} onKeyPress={onKeyPress} />
-      </div>
+      <div></div>
+      <Dashboard
+        room={room}
+        message={message}
+        setMessage={setMessage}
+        sendMessage={sendMessage}
+      />
     </div>
   );
 };
