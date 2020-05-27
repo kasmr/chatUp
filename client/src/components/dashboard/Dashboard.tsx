@@ -1,9 +1,8 @@
 import React from 'react';
-import { Tstate } from '../Chat';
 
 interface Props {}
 
-const Dashboard = ({ room }: { room: Tstate }) => {
+const Dashboard = ({ room }: { room: any }) => {
   return (
     <div>
       <div>

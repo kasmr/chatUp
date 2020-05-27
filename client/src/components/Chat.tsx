@@ -2,21 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import queryString from 'query-string';
 import io from 'socket.io-client';
-import Dashboard from './dashboard/Dashboard';
 import Input from './Input';
+import Dashboard from './dashboard/Dashboard';
+import Messages from './Messages';
 
-interface IMessages {
+export interface IMessages {
   user: string;
   text: string;
 }
 
-export type Tstate = string | string[] | null | undefined;
-
 let socket: any;
 
 const Chat: React.FC<RouteComponentProps> = ({ location }) => {
-  const [name, setName] = useState<Tstate>('');
-  const [room, setRoom] = useState<Tstate>('');
+  const [name, setName] = useState<string | string[] | null | undefined>('');
+  const [room, setRoom] = useState<string | string[] | null | undefined>('');
   const [messages, setMessages] = useState<IMessages[]>([]);
   const [message, setMessage] = useState('');
   const ENDPOINT: string = 'localhost:5000';
@@ -47,10 +46,24 @@ const Chat: React.FC<RouteComponentProps> = ({ location }) => {
     // })
   }, []);
 
-  const sendMessage = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+  const sendMessage = (
+    e:
+      | React.KeyboardEvent<HTMLInputElement>
+      | React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ): void => {
     e.preventDefault();
     if (message) {
       socket.emit('sendMessage', message, () => setMessage(''));
+    }
+  };
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setMessage(e.target.value);
+  };
+
+  const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') {
+      sendMessage(e);
     }
   };
 
@@ -58,13 +71,16 @@ const Chat: React.FC<RouteComponentProps> = ({ location }) => {
 
   return (
     <div>
-      <div></div>
-      <Dashboard room={room} />
-      <Input
-        message={message}
-        setMessage={setMessage}
-        sendMessage={sendMessage}
-      />
+      <div>
+        <Dashboard room={room} />
+        <Messages messages={messages} name={name} />
+        <Input
+          message={message}
+          onChange={onChange}
+          onKeyPress={onKeyPress}
+          sendMessage={sendMessage}
+        />
+      </div>
     </div>
   );
 };
