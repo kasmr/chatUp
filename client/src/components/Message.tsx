@@ -1,8 +1,9 @@
 import React from 'react';
 import { IMessages } from './Chat';
+import ReactEmoji from 'react-emoji';
 
 interface Props {
-  name: string | string[] | null | undefined;
+  name: string | null | undefined;
   message: IMessages;
 }
 
@@ -19,7 +20,7 @@ const Message: React.FC<Props> = ({ name, message: { user, text } }) => {
     <div>
       <p>{trimmedName}</p>
       <div>
-        <p>{text}</p>
+        <p>{ReactEmoji.emojify(text)}</p>
       </div>
     </div>
   ) : (

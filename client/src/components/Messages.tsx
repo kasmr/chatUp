@@ -5,7 +5,7 @@ import Message from './Message';
 
 interface Props {
   messages: IMessages[];
-  name: string | string[] | null | undefined;
+  name: string | null | undefined;
 }
 
 const Messages: React.FC<Props> = ({ messages, name }) => {

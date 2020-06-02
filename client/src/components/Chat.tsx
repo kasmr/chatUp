@@ -11,21 +11,28 @@ export interface IMessages {
   text: string;
 }
 
+export interface IUsers {
+  id: number;
+  room: string;
+  name: string;
+}
+
 let socket: any;
 
 const Chat: React.FC<RouteComponentProps> = ({ location }) => {
-  const [name, setName] = useState<string | string[] | null | undefined>('');
-  const [room, setRoom] = useState<string | string[] | null | undefined>('');
+  const [name, setName] = useState<string | null | undefined>('');
+  const [room, setRoom] = useState<string | null | undefined>('');
   const [messages, setMessages] = useState<IMessages[]>([]);
   const [message, setMessage] = useState('');
+  const [users, setUsers] = useState<IUsers[]>([]);
   const ENDPOINT: string = 'localhost:5000';
 
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
     socket = io(ENDPOINT);
 
-    setName(name);
-    setRoom(room);
+    setName(name?.toString());
+    setRoom(room?.toString());
 
     socket.emit('join', { name, room }, () => {});
 
@@ -41,9 +48,9 @@ const Chat: React.FC<RouteComponentProps> = ({ location }) => {
       setMessages((messages) => [...messages, message]);
     });
 
-    // socket.on('roomData', ({users}) => {
-    //   setUsers(users)
-    // })
+    socket.on('roomData', ({ users }: { users: IUsers[] }) => {
+      setUsers(users);
+    });
   }, []);
 
   const sendMessage = (
@@ -67,7 +74,7 @@ const Chat: React.FC<RouteComponentProps> = ({ location }) => {
     }
   };
 
-  console.log(messages, message);
+  console.log(users);
 
   return (
     <div>
@@ -81,6 +88,7 @@ const Chat: React.FC<RouteComponentProps> = ({ location }) => {
           sendMessage={sendMessage}
         />
       </div>
+      <div>{users && users.map((user) => <h1>{user}</h1>)}</div>
     </div>
   );
 };
