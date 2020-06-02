@@ -1,6 +1,6 @@
 import React from 'react';
 import ScrollToBottom from 'react-scroll-to-bottom';
-import { IMessages } from './Chat';
+import { IMessages } from '../chat/Chat';
 import Message from './Message';
 
 interface Props {

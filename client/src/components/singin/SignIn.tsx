@@ -29,7 +29,7 @@ const SignIn: React.FC<RouteComponentProps> = ({ history }) => {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    if (form.username || form.room) {
+    if (form.username && form.room) {
       history.push(`/chat?name=${form.username}&room=${form.room}`);
     }
   };
@@ -61,6 +61,7 @@ const SignIn: React.FC<RouteComponentProps> = ({ history }) => {
               name='username'
               autoFocus
               onChange={onChange}
+              required
             />
             <TextField
               variant='outlined'
@@ -69,6 +70,7 @@ const SignIn: React.FC<RouteComponentProps> = ({ history }) => {
               name='room'
               label='Room'
               onChange={onChange}
+              required
             />
             <Button
               type='submit'

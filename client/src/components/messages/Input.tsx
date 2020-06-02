@@ -23,8 +23,9 @@ const Input: React.FC<Props> = ({
   const classes = useStyles();
 
   return (
-    <form>
+    <form className={classes.form}>
       <MInput
+        className={classes.input}
         type='text'
         value={message}
         onChange={onChange}
@@ -47,8 +48,19 @@ export default Input;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    form: {
+      display: 'flex',
+      width: '100%',
+      position: 'fixed',
+      bottom: 5,
+      margin: 'auto 1rem',
+    },
+    input: {
+      width: '60%',
+    },
     button: {
       margin: theme.spacing(1),
+      width: '7%',
     },
   })
 );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { IMessages } from './Chat';
+import { IMessages } from '../chat/Chat';
 import ReactEmoji from 'react-emoji';
 
 interface Props {

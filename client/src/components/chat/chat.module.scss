@@ -1,0 +1,10 @@
+@import '../../index.scss';
+
+.container {
+  height: 100vh;
+  display: flex;
+
+  &__dashboard {
+    width: 30%;
+  }
+}

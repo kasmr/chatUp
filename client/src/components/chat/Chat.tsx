@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import queryString from 'query-string';
 import io from 'socket.io-client';
-import Input from './Input';
-import Dashboard from './dashboard/Dashboard';
-import Messages from './Messages';
+import Input from '../messages/Input';
+import Dashboard from '../dashboard/Dashboard';
+import Messages from '../messages/Messages';
+import { makeStyles } from '@material-ui/core/styles';
 
 export interface IMessages {
   user: string;
@@ -20,6 +21,8 @@ export interface IUsers {
 let socket: any;
 
 const Chat: React.FC<RouteComponentProps> = ({ location }) => {
+  const classes = useStyles();
+
   const [name, setName] = useState<string | null | undefined>('');
   const [room, setRoom] = useState<string | null | undefined>('');
   const [messages, setMessages] = useState<IMessages[]>([]);
@@ -74,12 +77,12 @@ const Chat: React.FC<RouteComponentProps> = ({ location }) => {
     }
   };
 
-  console.log(users);
-
   return (
-    <div>
-      <div>
-        <Dashboard room={room} />
+    <div className={classes.container}>
+      <div className={classes.container__dashboard}>
+        <Dashboard name={name} room={room} users={users} />
+      </div>
+      <div className={classes.container__chat}>
         <Messages messages={messages} name={name} />
         <Input
           message={message}
@@ -88,9 +91,30 @@ const Chat: React.FC<RouteComponentProps> = ({ location }) => {
           sendMessage={sendMessage}
         />
       </div>
-      <div>{users && users.map((user) => <h1>{user}</h1>)}</div>
     </div>
   );
 };
 
 export default Chat;
+
+const useStyles = makeStyles((theme) => ({
+  container: {
+    height: '100vh',
+    display: 'flex',
+  },
+  container__chat: {},
+  container__dashboard: {
+    width: '30%',
+    backgroundColor: theme.palette.primary.main,
+  },
+  subTitle: {
+    marginBottom: '3rem',
+    [theme.breakpoints.down('sm')]: {
+      margin: 0,
+    },
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+}));
