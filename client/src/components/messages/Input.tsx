@@ -59,9 +59,6 @@ const useStyles = makeStyles((theme) =>
       width: '70%',
       position: 'fixed',
       bottom: 0,
-      [theme.breakpoints.down('sm')]: {
-        width: '60%',
-      },
     },
     input: {
       marginLeft: theme.spacing(1),

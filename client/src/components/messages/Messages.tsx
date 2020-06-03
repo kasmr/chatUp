@@ -2,6 +2,7 @@ import React from 'react';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import { IMessages } from '../chat/Chat';
 import Message from './Message';
+import { makeStyles } from '@material-ui/core/styles';
 
 interface Props {
   messages: IMessages[];
@@ -9,8 +10,10 @@ interface Props {
 }
 
 const Messages: React.FC<Props> = ({ messages, name }) => {
+  const classes = useStyles();
+
   return (
-    <ScrollToBottom>
+    <ScrollToBottom className={classes.root}>
       {messages.map((message, i) => (
         <Message key={i} message={message} name={name} />
       ))}
@@ -19,3 +22,13 @@ const Messages: React.FC<Props> = ({ messages, name }) => {
 };
 
 export default Messages;
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    height: '95vh',
+    [theme.breakpoints.down('sm')]: {
+      height: '93vh',
+    },
+  },
+}));

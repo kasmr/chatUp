@@ -102,12 +102,11 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
     display: 'flex',
   },
-  container__chat: {},
+  container__chat: {
+    width: '70%',
+  },
   container__dashboard: {
     width: '30%',
     backgroundColor: theme.palette.primary.main,
-    [theme.breakpoints.down('sm')]: {
-      width: '40%',
-    },
   },
 }));

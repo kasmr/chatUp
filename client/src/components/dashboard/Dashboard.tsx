@@ -20,7 +20,7 @@ const Dashboard: React.FC<Props> = ({ name, room, users }) => {
   return (
     <div className={classes.root}>
       <Typography className={classes.room} variant='h4' component='h4'>
-        Chat room: {room?.toUpperCase()}
+        Chat room: {room}
       </Typography>
       <div className={classes.user}>
         <Avatar className={classes.avatar}>
@@ -84,6 +84,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-start',
     alignItems: 'center',
     margin: '2rem 0',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+      flexWrap: 'wrap',
+    },
   },
   avatarGroup: {
     height: '100%',
@@ -105,12 +109,13 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(7),
     height: theme.spacing(7),
     fontSize: theme.spacing(5),
-    backgroundColor: randomColor(),
+    backgroundColor: theme.palette.warning.main,
     [theme.breakpoints.down('sm')]: {
       margin: '0 0.5rem',
       width: theme.spacing(5),
       height: theme.spacing(5),
       fontSize: theme.spacing(4),
+      marginBottom: '0.5rem',
     },
   },
   card: {
@@ -134,7 +139,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const randomColor = () => {
+export const randomColor = () => {
   let hex = Math.floor(Math.random() * 0xffffff);
   let color = '#' + hex.toString(16);
 
