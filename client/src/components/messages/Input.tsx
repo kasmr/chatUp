@@ -2,6 +2,10 @@ import React from 'react';
 import { Button, Input as MInput } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import SendIcon from '@material-ui/icons/Send';
+import Paper from '@material-ui/core/Paper';
+import InputBase from '@material-ui/core/InputBase';
+import IconButton from '@material-ui/core/IconButton';
+import Divider from '@material-ui/core/Divider';
 
 interface Props {
   message: string;
@@ -23,44 +27,52 @@ const Input: React.FC<Props> = ({
   const classes = useStyles();
 
   return (
-    <form className={classes.form}>
-      <MInput
+    <Paper component='form' className={classes.root}>
+      <InputBase
         className={classes.input}
         type='text'
         value={message}
         onChange={onChange}
         onKeyPress={onKeyPress}
       />
-      <Button
-        variant='contained'
+      <Divider className={classes.divider} orientation='vertical' />
+      <IconButton
         color='primary'
-        className={classes.button}
-        endIcon={<SendIcon />}
+        className={classes.iconButton}
+        aria-label='directions'
         onClick={(e) => sendMessage(e)}
       >
-        send
-      </Button>
-    </form>
+        <SendIcon />
+      </IconButton>
+    </Paper>
   );
 };
 
 export default Input;
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
-    form: {
+    root: {
+      padding: '2px 4px',
       display: 'flex',
-      width: '100%',
+      alignItems: 'center',
+      width: '70%',
       position: 'fixed',
-      bottom: 5,
-      margin: 'auto 1rem',
+      bottom: 0,
+      [theme.breakpoints.down('sm')]: {
+        width: '60%',
+      },
     },
     input: {
-      width: '60%',
+      marginLeft: theme.spacing(1),
+      flex: 1,
     },
-    button: {
-      margin: theme.spacing(1),
-      width: '7%',
+    iconButton: {
+      padding: 10,
+    },
+    divider: {
+      height: 28,
+      margin: 4,
     },
   })
 );
