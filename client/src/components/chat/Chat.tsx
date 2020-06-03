@@ -106,15 +106,8 @@ const useStyles = makeStyles((theme) => ({
   container__dashboard: {
     width: '30%',
     backgroundColor: theme.palette.primary.main,
-  },
-  subTitle: {
-    marginBottom: '3rem',
     [theme.breakpoints.down('sm')]: {
-      margin: 0,
+      width: '40%',
     },
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
   },
 }));
