@@ -1,12 +1,12 @@
 import React from 'react';
 import ScrollToBottom from 'react-scroll-to-bottom';
-import { IMessages } from '../chat/Chat';
+import { IMessages, TChat } from '../chat/Chat';
 import Message from './Message';
 import { makeStyles } from '@material-ui/core/styles';
 
 interface Props {
   messages: IMessages[];
-  name: string | null | undefined;
+  name: TChat;
 }
 
 const Messages: React.FC<Props> = ({ messages, name }) => {

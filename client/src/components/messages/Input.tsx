@@ -1,6 +1,5 @@
 import React from 'react';
-import { Button, Input as MInput } from '@material-ui/core';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import SendIcon from '@material-ui/icons/Send';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
@@ -59,6 +58,7 @@ const useStyles = makeStyles((theme) =>
       width: '70%',
       position: 'fixed',
       bottom: 0,
+      borderRadius: 0,
     },
     input: {
       marginLeft: theme.spacing(1),

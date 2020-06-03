@@ -1,12 +1,11 @@
 import React from 'react';
-import { IMessages } from '../chat/Chat';
+import { IMessages, TChat } from '../chat/Chat';
 import ReactEmoji from 'react-emoji';
-import Avatar from '@material-ui/core/Avatar';
 import { Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 interface Props {
-  name: string | null | undefined;
+  name: TChat;
   message: IMessages;
 }
 
@@ -23,21 +22,10 @@ const Message: React.FC<Props> = ({ name, message: { user, text } }) => {
 
   return isSentByCurrentUser ? (
     <div className={classes.messageRight}>
-      <Paper className={classes.paperRight}>
-        <Typography
-          className={classes.author}
-          variant='caption'
-          display='block'
-          color='textSecondary'
-        >
-          {`~${trimmedName}`}
-        </Typography>
-
-        {ReactEmoji.emojify(text)}
-      </Paper>
+      <Paper className={classes.paperRight}>{ReactEmoji.emojify(text)}</Paper>
     </div>
   ) : (
-    <div className={classes.message}>
+    <div className={classes.messageLeft}>
       <Paper className={classes.paperLeft}>
         <Typography
           className={classes.author}
@@ -47,7 +35,6 @@ const Message: React.FC<Props> = ({ name, message: { user, text } }) => {
         >
           {`~${user}`}
         </Typography>
-
         {ReactEmoji.emojify(text)}
       </Paper>
     </div>
@@ -57,7 +44,7 @@ const Message: React.FC<Props> = ({ name, message: { user, text } }) => {
 export default Message;
 
 const useStyles = makeStyles((theme) => ({
-  message: {
+  messageLeft: {
     display: 'flex',
     justifyContent: 'flex-start',
     flexWrap: 'wrap',
@@ -83,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
   },
   author: {
     display: 'flex',
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-end',
   },
   avatarUsers: {
     fontSize: theme.spacing(2),
@@ -91,5 +78,3 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(4),
   },
 }));
-
-// backgroundColor: theme.palette.warning.main,

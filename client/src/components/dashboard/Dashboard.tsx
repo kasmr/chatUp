@@ -1,5 +1,5 @@
 import React from 'react';
-import { IUsers } from '../chat/Chat';
+import { IUsers, TChat } from '../chat/Chat';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { Avatar, Typography } from '@material-ui/core';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
@@ -9,8 +9,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Tooltip from '@material-ui/core/Tooltip';
 
 interface Props {
-  room: string | null | undefined;
-  name: string | null | undefined;
+  room: TChat;
+  name: TChat;
   users: IUsers[];
 }
 
@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-start',
     color: '#fff',
     margin: '2rem',
-    height: '90vh',
+    height: '75vh',
     [theme.breakpoints.down('sm')]: { margin: '0.5rem' },
   },
   room: {
@@ -139,7 +139,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const randomColor = () => {
+const randomColor = () => {
   let hex = Math.floor(Math.random() * 0xffffff);
   let color = '#' + hex.toString(16);
 

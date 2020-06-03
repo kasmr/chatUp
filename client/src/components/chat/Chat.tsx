@@ -6,6 +6,8 @@ import Input from '../messages/Input';
 import Dashboard from '../dashboard/Dashboard';
 import Messages from '../messages/Messages';
 import { makeStyles } from '@material-ui/core/styles';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
 export interface IMessages {
   user: string;
@@ -18,13 +20,21 @@ export interface IUsers {
   name: string;
 }
 
+export type TChat = string | null | undefined;
+
+//Наследование
+interface Props extends RouteComponentProps {
+  handleChange: () => void;
+  darkMode: boolean;
+}
+
 let socket: any;
 
-const Chat: React.FC<RouteComponentProps> = ({ location }) => {
+const Chat: React.FC<Props> = ({ location, handleChange, darkMode }) => {
   const classes = useStyles();
 
-  const [name, setName] = useState<string | null | undefined>('');
-  const [room, setRoom] = useState<string | null | undefined>('');
+  const [name, setName] = useState<TChat>('');
+  const [room, setRoom] = useState<TChat>('');
   const [messages, setMessages] = useState<IMessages[]>([]);
   const [message, setMessage] = useState('');
   const [users, setUsers] = useState<IUsers[]>([]);
@@ -81,6 +91,17 @@ const Chat: React.FC<RouteComponentProps> = ({ location }) => {
     <div className={classes.container}>
       <div className={classes.container__dashboard}>
         <Dashboard name={name} room={room} users={users} />
+        <FormControlLabel
+          className={classes.container__dashboard_switch}
+          control={
+            <Switch
+              checked={darkMode}
+              onChange={handleChange}
+              color='default'
+            />
+          }
+          label='Dark mode'
+        />
       </div>
       <div className={classes.container__chat}>
         <Messages messages={messages} name={name} />
@@ -108,5 +129,10 @@ const useStyles = makeStyles((theme) => ({
   container__dashboard: {
     width: '30%',
     backgroundColor: theme.palette.primary.main,
+  },
+  container__dashboard_switch: {
+    color: '#fff',
+    display: 'flex',
+    justifyContent: 'center',
   },
 }));
